@@ -17,8 +17,10 @@
 
 package com.pig4cloud.pig.member.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.member.dto.Order;
 import com.pig4cloud.pig.member.dto.OrderInfo;
 import com.pig4cloud.pig.member.entity.TbOrder;
 
@@ -36,4 +38,29 @@ public interface TbOrderService extends IService<TbOrder> {
 	 * @return R<String>
 	 */
 	R<String> createOrder(OrderInfo orderInfo);
+
+	/**
+	 * 获得用户所有订单
+	 *
+	 * @param userId 用户id
+	 * @param page 分页对象
+	 * @return R<Page<Order>>
+	 */
+	Page<Order> getOrderList(Long userId, Page<TbOrder> page);
+
+	/**
+	 * 删除订单
+	 *
+	 * @param orderId 订单id
+	 * @return Boolean
+	 */
+	R<Boolean> delById(String orderId);
+
+	/**
+	 * 获取订单详情
+	 *
+	 * @param orderId 订单id
+	 * @return R<Order>
+	 */
+	R<Order> getDetailById(String orderId);
 }

@@ -137,4 +137,16 @@ public class TbMemberController {
 	public R<Member> login(@RequestBody Member member) {
 		return tbMemberService.login(member);
 	}
+
+	/**
+	 * 注销
+	 *
+	 * @param token 认证信息
+	 * @return R
+	 */
+	@GetMapping("/logOut")
+	@ApiOperation(value = "用户注销", notes = "用户注销")
+	public R login(@RequestParam("token") String token) {
+		return tbMemberService.logOut(token);
+	}
 }

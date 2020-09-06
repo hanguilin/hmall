@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "ordershipping", tags = "管理")
 public class TbOrderShippingController {
 
-    private final  TbOrderShippingService tbOrderShippingService;
+    private final TbOrderShippingService tbOrderShippingService;
 
     /**
      * 分页查询

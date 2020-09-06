@@ -19,6 +19,7 @@ package com.pig4cloud.pig.goods.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.google.common.base.Splitter;
@@ -126,10 +127,17 @@ public class TbItem extends Model<TbItem> {
 	@ApiModelProperty(value = "价格排序字段")
 	private Integer sortFilter;
 
-	public List<String> getImages(){
-		if(StringUtils.isBlank(this.image)){
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private String delFlag;
+
+	public List<String> getImages() {
+		if (StringUtils.isBlank(this.image)) {
 			return EMPTY_LIST;
 		}
 		return Splitter.on(",").splitToList(this.image);
 	}
+
 }

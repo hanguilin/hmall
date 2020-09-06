@@ -4,6 +4,7 @@ import com.pig4cloud.pig.goods.entity.TbItem;
 import com.pig4cloud.pig.member.dto.CartProduct;
 import com.pig4cloud.pig.member.dto.Member;
 import com.pig4cloud.pig.member.entity.TbMember;
+import com.pig4cloud.pig.member.entity.TbOrderItem;
 
 /**
  * dto对象转换类
@@ -59,6 +60,22 @@ public class DtoUtil {
 		member.setSex(tbMemer.getSex());
 		member.setDescription(tbMemer.getDescription());
 		return member;
+	}
+
+	/**
+	 * TbOrderItem实体转CartProduct
+	 *
+	 * @param tbOrderItem 订单表实体
+	 * @return CartProduct
+	 */
+	public static CartProduct tbOrderItemToCartProduct(TbOrderItem tbOrderItem) {
+		CartProduct cartProduct = new CartProduct();
+		cartProduct.setProductId(Long.valueOf(tbOrderItem.getItemId()));
+		cartProduct.setProductName(tbOrderItem.getTitle());
+		cartProduct.setSalePrice(tbOrderItem.getPrice());
+		cartProduct.setProductNum(Long.valueOf(tbOrderItem.getNum()));
+		cartProduct.setProductImg(tbOrderItem.getPicPath());
+		return cartProduct;
 	}
 
 }

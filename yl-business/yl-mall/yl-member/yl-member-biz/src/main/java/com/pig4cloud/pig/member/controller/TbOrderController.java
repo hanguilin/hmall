@@ -22,10 +22,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.pig4cloud.pig.member.dto.Order;
 import com.pig4cloud.pig.member.dto.OrderInfo;
 import com.pig4cloud.pig.member.entity.TbOrder;
 import com.pig4cloud.pig.member.service.TbOrderService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +68,7 @@ public class TbOrderController {
     @ApiOperation(value = "通过id查询订单", notes = "通过id查询订单")
     @GetMapping("/{orderId}" )
     public R getById(@PathVariable("orderId" ) String orderId) {
-        return R.ok(tbOrderService.getById(orderId));
+        return tbOrderService.getDetailById(orderId);
     }
 
     /**
@@ -103,8 +103,20 @@ public class TbOrderController {
     @ApiOperation(value = "通过id删除订单", notes = "通过id删除订单")
     @SysLog("通过id删除订单" )
     @DeleteMapping("/{orderId}" )
-    public R removeById(@PathVariable String orderId) {
-        return R.ok(tbOrderService.removeById(orderId));
+    public R<Boolean> removeById(@PathVariable String orderId) {
+        return tbOrderService.delById(orderId);
     }
 
+	/**
+	 * 获得用户所有订单
+	 *
+	 * @param userId 用户id
+	 * @param page 分页对象
+	 * @return R<Page<Order>>
+	 */
+	@GetMapping("/userOrder")
+	@ApiOperation(value = "获得用户所有订单")
+	public R<Page<Order>> getOrderList(Long userId, Page<TbOrder> page){
+		return R.ok(tbOrderService.getOrderList(userId, page));
+	}
 }

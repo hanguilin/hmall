@@ -45,4 +45,12 @@ public interface TbMemberService extends IService<TbMember> {
 	 * @return R<Member>
 	 */
 	R<Member> login(Member member);
+
+	/**
+	 * 注销
+	 *
+	 * @param token 认证信息
+	 * @return R
+	 */
+	R logOut(String token);
 }

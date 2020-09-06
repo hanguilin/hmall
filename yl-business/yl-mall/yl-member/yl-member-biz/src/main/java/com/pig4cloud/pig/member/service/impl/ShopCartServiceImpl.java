@@ -8,8 +8,8 @@ import com.pig4cloud.pig.member.dto.CartProduct;
 import com.pig4cloud.pig.member.service.ShopCartService;
 import com.pig4cloud.pig.member.util.DtoUtil;
 import com.pig4cloud.pig.member.util.HashKeyUtil;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -22,15 +22,22 @@ import java.util.stream.Collectors;
  *
  * @author hanguilin
  */
-@RequiredArgsConstructor
 @Service
 public class ShopCartServiceImpl implements ShopCartService {
 
-//	private final HashOperations<String, String, String> hashOperations;
+	private RedisTemplate<String, String> redisTemplate;
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private RemoteItemService remoteItemService;
 
-	private final RemoteItemService remoteItemService;
+	@Autowired
+	public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
+
+	@Autowired
+	public void setRemoteItemService(RemoteItemService remoteItemService) {
+		this.remoteItemService = remoteItemService;
+	}
 
 	/**
 	 * 添加到购物车

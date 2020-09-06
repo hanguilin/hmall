@@ -19,6 +19,7 @@ package com.pig4cloud.pig.member.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -27,8 +28,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * 订单商品表
@@ -84,4 +83,10 @@ public class TbOrderItem extends Model<TbOrderItem> {
 	 */
 	@ApiModelProperty(value = "商品图片地址")
 	private String picPath;
+
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private String delFlag;
 }

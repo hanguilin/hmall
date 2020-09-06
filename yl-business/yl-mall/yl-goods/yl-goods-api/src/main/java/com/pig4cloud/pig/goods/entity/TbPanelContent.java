@@ -19,6 +19,7 @@ package com.pig4cloud.pig.goods.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -44,7 +45,7 @@ public class TbPanelContent extends Model<TbPanelContent> {
 	 *
 	 */
 	@TableId
-	@ApiModelProperty(value = "")
+	@ApiModelProperty
 	private Integer id;
 	/**
 	 * 所属板块id
@@ -111,4 +112,10 @@ public class TbPanelContent extends Model<TbPanelContent> {
 
 	@TableField(exist = false)
 	private String productImageBig;
+
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private String delFlag;
 }

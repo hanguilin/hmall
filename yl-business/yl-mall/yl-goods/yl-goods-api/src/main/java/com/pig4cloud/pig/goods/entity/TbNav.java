@@ -18,6 +18,7 @@
 package com.pig4cloud.pig.goods.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -64,15 +65,16 @@ public class TbNav extends Model<TbNav> {
 	 */
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updated;
-	/**
-	 * 逻辑删除
-	 */
-	@ApiModelProperty(value = "逻辑删除")
-	private String delFlag;
 
 	/**
 	 * 排序序号
 	 */
 	@ApiModelProperty(value = "排序序号")
 	private Integer sortOrder;
+
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private String delFlag;
 }

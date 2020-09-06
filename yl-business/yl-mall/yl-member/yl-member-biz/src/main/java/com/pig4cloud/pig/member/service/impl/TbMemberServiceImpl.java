@@ -25,10 +25,13 @@ import com.pig4cloud.pig.member.dto.Member;
 import com.pig4cloud.pig.member.entity.TbMember;
 import com.pig4cloud.pig.member.mapper.TbMemberMapper;
 import com.pig4cloud.pig.member.service.TbMemberService;
+import com.pig4cloud.pig.member.service.TbOrderItemService;
+import com.pig4cloud.pig.member.service.TbOrderService;
+import com.pig4cloud.pig.member.service.TbOrderShippingService;
 import com.pig4cloud.pig.member.util.DtoUtil;
 import com.pig4cloud.pig.member.util.HashKeyUtil;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -43,12 +46,40 @@ import java.util.concurrent.TimeUnit;
  * @date 2020-08-23 13:10:03
  */
 @Service
-@RequiredArgsConstructor
 public class TbMemberServiceImpl extends ServiceImpl<TbMemberMapper, TbMember> implements TbMemberService {
 
+	/**
+	 * 启用状态常量
+	 */
 	private static final String ENABLED = "0";
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private RedisTemplate<String, String> redisTemplate;
+
+	private TbOrderService tbOrderService;
+
+	private TbOrderShippingService tbOrderShippingService;
+
+	private TbOrderItemService tbOrderItemService;
+
+	@Autowired
+	public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
+
+	@Autowired
+	public void setTbOrderService(TbOrderService tbOrderService) {
+		this.tbOrderService = tbOrderService;
+	}
+
+	@Autowired
+	public void setTbOrderShippingService(TbOrderShippingService tbOrderShippingService) {
+		this.tbOrderShippingService = tbOrderShippingService;
+	}
+
+	@Autowired
+	public void setTbOrderItemService(TbOrderItemService tbOrderItemService) {
+		this.tbOrderItemService = tbOrderItemService;
+	}
 
 	@Override
 	public Member getUserByToken(String token) {
@@ -72,14 +103,14 @@ public class TbMemberServiceImpl extends ServiceImpl<TbMemberMapper, TbMember> i
 	public R<Member> login(Member member) {
 		String userName = member.getUserName();
 		String password = member.getPassword();
-		if(StringUtils.isBlank(userName) || StringUtils.isBlank(password) ){
+		if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
 			return R.failed("缺少参数");
 		}
 		LambdaQueryWrapper<TbMember> lambdaQueryWrapper = Wrappers.lambdaQuery();
 		lambdaQueryWrapper.eq(TbMember::getState, ENABLED);
 		lambdaQueryWrapper.eq(TbMember::getUserName, userName);
 		TbMember tbMember = getOne(lambdaQueryWrapper);
-		if(tbMember == null){
+		if (tbMember == null) {
 			return R.failed("用户名不存在");
 		}
 		String passwordDb = tbMember.getPassword();
@@ -92,6 +123,18 @@ public class TbMemberServiceImpl extends ServiceImpl<TbMemberMapper, TbMember> i
 		// 用户信息写入redis,超时时间1800s=30min
 		redisTemplate.opsForValue().set(HashKeyUtil.getSessionKey(token), JSON.toJSONString(memberResult), 1800, TimeUnit.SECONDS);
 		return R.ok(memberResult);
+	}
+
+	/**
+	 * 注销
+	 *
+	 * @param token 认证信息
+	 * @return R
+	 */
+	@Override
+	public R logOut(String token) {
+		redisTemplate.delete(token);
+		return R.ok();
 	}
 
 }

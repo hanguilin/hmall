@@ -19,6 +19,7 @@ package com.pig4cloud.pig.goods.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -93,6 +94,12 @@ public class TbPanel extends Model<TbPanel> {
 	 */
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updated;
+
+	/**
+	 * 逻辑删除
+	 */
+	@TableLogic
+	private String delFlag;
 
 	@TableField(exist = false)
 	private List<TbPanelContent> panelContents;
