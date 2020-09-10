@@ -107,7 +107,7 @@
 		<module>pig-upms</module>
 		<module>pig-common</module>
 		<module>pig-visual</module>
-		<module>yl-business</module>
+		<module>yl-mall</module>
 	</modules>
 
 	<dependencyManagement>

@@ -40,6 +40,16 @@ public interface ServiceNameConstants {
 	String GOODS_SERVICE = "yl-goods-biz";
 
 	/**
+	 * 客户模块
+	 */
+	String MEMBER_SERVICE = "yl-member-biz";
+
+	/**
+	 * 订单模块
+	 */
+	String ORDER_SERVICE = "yl-order-biz";
+
+	/**
 	 * 搜索模块
 	 */
 	String SEARCH_SERVICE = "yl-search-biz";
